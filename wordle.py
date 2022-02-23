@@ -11,7 +11,6 @@ def check_list(guess_wrd, word_bank):
             return True
     return False
 
-
 if __name__ == '__main__':
     # set the game loop variable to 1 and curr_row to 0
     game_loop = 1
@@ -31,7 +30,6 @@ if __name__ == '__main__':
     while(game_loop == 1):
         # clears the screen and prints the rows and words
         os.system('clear')
-        #print("X=incorrect | O=correct letter and place | M=correct letter")
         print(colored("WORDLE", 'cyan', attrs=['underline', 'blink']))
         for i in range(0, 6):
             print(game_rows[i])
@@ -65,6 +63,7 @@ if __name__ == '__main__':
                     for j in range(0, 5):
                         if (wrd[j] == guess_wrd[i] and to_append[i] != "O"):
                             to_append[i] = "M"
+            # changes the guessed word to upper case and splits it
             guess_wrd = guess_wrd.upper()
             guess_wrd = list(guess_wrd)
             for i in range (0, 5):
@@ -77,8 +76,8 @@ if __name__ == '__main__':
             print("colored word " + guess_wrd)        
             game_rows[curr_row] = guess_wrd
             curr_row += 1
+    
     os.system('clear')
-    #print("X=incorrect | O=correct letter and place | M=correct letter")
     print(colored("WORDLE", 'cyan', attrs=['underline', 'blink']))
     for i in range(0, 6):
         print(game_rows[i])    
