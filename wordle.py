@@ -25,15 +25,29 @@ if __name__ == '__main__':
     
     # strips the newline character
     wrd = wrd.rstrip("\n")
+    guessed_letters = []
     
     game_rows = ["-----", "-----", "-----", "-----", "-----", "-----"]
     while(game_loop == 1):
         # clears the screen and prints the rows and words
         os.system('clear')
         print(colored("WORDLE", 'cyan', attrs=['underline', 'blink']))
+
         for i in range(0, 6):
             print(game_rows[i])
-        
+        print("")
+        if len(guessed_letters) > 0:
+            print("Guessed letters: ", end="")
+            for i in range (0, len(guessed_letters)):
+                if (i == 6):
+                    print("")
+                    print("                 ", end="")
+                if i != len(guessed_letters) - 1:
+                    print(guessed_letters[i] + " ", end ="")
+                else:
+                    print(guessed_letters[i] + " ", end="")
+                    print("")
+
         # take the input from the user and checks if it is a word in the dictionary
         guess_wrd = input("What is your guess? ")
         check = check_list(guess_wrd, wrds)
@@ -63,7 +77,6 @@ if __name__ == '__main__':
                     for j in range(0, 5):
                         if (wrd[j] == guess_wrd[i] and to_append[i] != "O"):
                             to_append[i] = "M"
-            # changes the guessed word to upper case and splits it
             guess_wrd = guess_wrd.upper()
             guess_wrd = list(guess_wrd)
             for i in range (0, 5):
@@ -71,18 +84,35 @@ if __name__ == '__main__':
                     guess_wrd[i] = colored(guess_wrd[i], 'yellow')
                 if (to_append[i] == 'O'):
                     guess_wrd[i] = colored(guess_wrd[i], 'green')
+                if (to_append[i] == 'X'):
+                    if (not guessed_letters.__contains__(guess_wrd[i])):
+                        guessed_letters.append(guess_wrd[i])
+            guessed_letters.sort()
             guess_wrd = "".join(guess_wrd)
             to_append = "".join(to_append)
             print("colored word " + guess_wrd)        
             game_rows[curr_row] = guess_wrd
             curr_row += 1
-    
     os.system('clear')
     print(colored("WORDLE", 'cyan', attrs=['underline', 'blink']))
     for i in range(0, 6):
-        print(game_rows[i])    
+        print(game_rows[i]) 
+    print(" ")
+    if len(guessed_letters) > 0:
+        print("Guessed letters: ", end="")
+        for i in range (0, len(guessed_letters)):
+            if (i == 6):
+                print(" ")
+                print("                 ", end="")
+            if i != len(guessed_letters) - 1:
+                   print(guessed_letters[i] + " ", end ="")
+            else:
+                print(guessed_letters[i] + " ", end=" ")
+                print("")
     if (game_loop == 2):
-        print("Congratulations! You won!")
+        print(colored("Congratulations! You won!", 'green', attrs=['underline', 'blink']))
+        print(" ")
     if (game_loop == 3):
-        print("Better luck next time!")
+        print(colored("Better luck next time!", 'red'))
         print("The word was: " + wrd)
+        print(" ")
